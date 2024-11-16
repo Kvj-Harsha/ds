@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.embeddedhtml": "html",
+    "*.txt": "bat",
+    "iostream": "cpp",
+    "ostream": "cpp",
+    "array": "cpp",
+    "deque": "cpp",
+    "vector": "cpp"
+  }
+}
