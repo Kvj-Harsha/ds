@@ -31,6 +31,13 @@ int nofonodes(Node* root){
     }
     return nofonodes(root->left)+nofonodes(root->right)+1;
 }
+int sumofnodes(Node* root){
+    if (root==NULL)
+    {
+        return 0;
+    }
+    return sumofnodes(root->left)+sumofnodes(root->right)+root->data;
+}
 
 int main(){
 
@@ -43,6 +50,8 @@ int main(){
 
     int tot = nofonodes(root);
     cout << tot << "\n";
+    int pot = sumofnodes(root);
+    cout << pot << "\n";
     inorder(root);
     return 0;
 }
