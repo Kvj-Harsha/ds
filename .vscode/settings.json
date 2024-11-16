@@ -1,7 +1,0 @@
-{
-    "files.associations": {
-        "*.embeddedhtml": "html",
-        "*.txt": "bat",
-        "iostream": "cpp"
-    }
-}
