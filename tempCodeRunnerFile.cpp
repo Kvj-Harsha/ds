@@ -1,168 +1,55 @@
 #include <iostream>
 using namespace std;
 
-struct Node {
-    int data;
-    Node* left;
-    Node* right;
+void countingSort(int arr[], int n,         
+int exp) {
+    int C[10] = {0};
 
-    Node(int value) {
-        data = value;
-        left = right = nullptr;
-    }
-};
-
-struct BST {
-    Node* root;
-
-    BST() {
-        root = nullptr;
+    for (int i = 0; i < n; i++) {
+        int index = (arr[i]/exp)%10;
+        C[index]++;
     }
 
-    Node* insert(Node* root, int data) {
-        if (root == nullptr) {
-            return new Node(data);
-        }
-        if (data < root->data) {
-            root->left = insert(root->left, data);
-        } else {
-            root->right = insert(root->right, data);
-        }
-        return root;
+    for (int i=1; i<10; i++)
+        C[i] += C[i-1];
+
+    int *output = new int[n];
+    for (int i = n - 1; i >= 0; i--) {
+        int index = (arr[i]/exp)%10;
+        output[C[index]-1] = arr[i];
+        C[index]--;
     }
 
-    Node* findMin(Node* root) {
-        while (root && root->left != nullptr) {
-            root = root->left;
-        }
-        return root;
-    }
+    for (int i=0; i<n; i++)
+        arr[i] = output[i];
+}
 
-    Node* deleteNode(Node* root, int data) {
-        if (root == nullptr) {
-            return root;
-        }
-        if (data < root->data) {
-            root->left = deleteNode(root->left, data);
-        } else if (data > root->data) {
-            root->right = deleteNode(root->right, data);
-        } else {
-            // Node with one or no children
-            if (root->left == nullptr) {
-                Node* temp = root->right;
-                delete root;
-                return temp;
-            } else if (root->right == nullptr) {
-                Node* temp = root->left;
-                delete root;
-                return temp;
-            }
-            // Node with two children: get inorder successor
-            Node* temp = findMin(root->right);
-            root->data = temp->data;
-            root->right = deleteNode(root->right, temp->data);
-        }
-        return root;
-    }
+void radixsort (int arr [], int n) {
+    int max = arr[0];
+    for (int i = 1; i < n; i++)
+        if (arr[i] > max)
+            max = arr[i];
 
-    void preOrder(Node* root) {
-        if (root == nullptr) {
-            return;
-        }
-        cout << root->data << " ";
-        preOrder(root->left);
-        preOrder(root->right);
+    int digit = 1;
+    while (max / digit > 0) {
+        countingSort(arr, n, digit);
+        digit *= 10;
     }
+}
 
-    void inOrder(Node* root) {
-        if (root == nullptr) {
-            return;
-        }
-        inOrder(root->left);
-        cout << root->data << " ";
-        inOrder(root->right);
-    }
-
-    void postOrder(Node* root) {
-        if (root == nullptr) {
-            return;
-        }
-        postOrder(root->left);
-        postOrder(root->right);
-        cout << root->data << " ";
-    }
-
-    Node* search(Node* root, int key) {
-        if (root == nullptr || root->data == key) {
-            return root;
-        }
-        if (key < root->data) {
-            return search(root->left, key);
-        }
-        return search(root->right, key);
-    }
-
-    void insert(int data) {
-        root = insert(root, data);
-    }
-
-    void deleteNode(int data) {
-        root = deleteNode(root, data);
-    }
-
-    void preOrderTraversal() {
-        preOrder(root);
-        cout << endl;
-    }
-
-    void inOrderTraversal() {
-        inOrder(root);
-        cout << endl;
-    }
-
-    void postOrderTraversal() {
-        postOrder(root);
-        cout << endl;
-    }
-
-    bool search(int key) {
-        return search(root, key) != nullptr;
-    }
-};
+void printArray(int arr[], int n) {
+    for (int i = 0; i < n; i++)
+        cout << arr[i] << " ";
+    cout << endl;
+}
 
 int main() {
-    BST tree;
-
-    // Insert elements
-    tree.insert(50);
-    tree.insert(30);
-    tree.insert(70);
-    tree.insert(20);
-    tree.insert(40);
-    tree.insert(60);
-    tree.insert(80);
-
-    cout << "In-order Traversal: ";
-    tree.inOrderTraversal();
-
-    cout << "Pre-order Traversal: ";
-    tree.preOrderTraversal();
-
-    cout << "Post-order Traversal: ";
-    tree.postOrderTraversal();
-
-    // Search for a node
-    int key = 40;
-    if (tree.search(key)) {
-        cout << key << " is found in the BST.\n";
-    } else {
-        cout << key << " is not found in the BST.\n";
-    }
-
-    // Delete a node
-    tree.deleteNode(50);
-    cout << "In-order Traversal after deleting 50: ";
-    tree.inOrderTraversal();
-
+    int arr[] = {170, 45, 75, 90, 802,      
+24, 2, 66};
+    int n = 
+sizeof(arr)/sizeof(arr[0]);
+    
+radixsort(arr, n);
+    printArray(arr, n);
     return 0;
 }
