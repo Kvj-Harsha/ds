@@ -9,8 +9,7 @@ int main()
     int end = 9;
     bool found = false;
 
-    while (start <= end)
-    {
+    while (start <= end){
         int mid = (start + end) / 2;
         if (key == x[mid])
         {
